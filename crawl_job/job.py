@@ -8,6 +8,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
 #创建数据库连接
 conn = MySQLdb.connect(
     host='192.168.100.10',
