@@ -8,51 +8,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-
-class Item(object):
-    JobName = None
-    CompanyName = None
-    WorkPlace = None
-    Salary = None
-    Time1 =None
-
-class Job(object):
-    def __init__(self,job):
-        self.job = job
-        self.baseurl = 'http://search.51job.com/list/030200,000000,0000,00,9,99,'
-        self.url = self.baseurl + self.job + ',2,1.html'
-        self.firstPage = self.Getpage(self.url)
-
-
-
-
-    def Getpage(self,url):
-        response = urllib2.urlopen(url)
-        html = response.read()
-        return html
-
-
-    def getUrls(self, firstPage):
-        ''' 获取urls列表 '''
-        s = '共(.*?)页'.decode('utf-8')
-        defPage = re.compile(s)
-        # print self.firstPage.decode('gbk')
-        fullPage = re.search(defPage, self.firstPage.decode('gbk')).group(1)
-        # print fullPage
-        # fullPage = 65
-        urls = []
-        ul = self.url.split(',')
-        for page in range(1, int(fullPage) + 1):
-            ul[-1] = str(page) + '.html'
-            url = ','.join(ul)
-            urls.append(url)
-        return urls
-
-
-
-
-
-
 #创建数据库连接
 conn = MySQLdb.connect(
     host='192.168.100.10',
@@ -62,7 +17,6 @@ conn = MySQLdb.connect(
     db='db',
     charset='utf8')
 cur = conn.cursor()
-
 
 #获取源码
 def get_info(page):
@@ -104,5 +58,3 @@ for b in range(1,20):  #设置爬取的页数
 cur.close()
 conn.commit()
 conn.close()
-
-
